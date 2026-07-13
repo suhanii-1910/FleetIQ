@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id       String @id @default(cuid())
+  name     String
+  email    String @unique
+  password String
+
+  trucks    Truck[]
+  drivers   Driver[]
+  customers Customer[]
+  trips     Trip[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Truck {
+  id          String @id @default(cuid())
+  truckNumber String @unique
+  model       String
+  capacity    Float
+  status      String
+
+  userId String
+  user   User @relation(fields: [userId], references: [id])
+
+  trips Trip[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Driver {
+  id            String @id @default(cuid())
+  name          String
+  phone         String
+  licenseNumber String @unique
+  salary        Float
+  status        String
+
+  userId String
+  user   User @relation(fields: [userId], references: [id])
+
+  trips Trip[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Customer {
+  id      String @id @default(cuid())
+  name    String
+  company String?
+  phone   String
+  email   String @unique
+
+  userId String
+  user   User @relation(fields: [userId], references: [id])
+
+  trips Trip[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Trip {
+  id String @id @default(cuid())
+
+  source      String
+  destination String
+
+  distance  Float
+  revenue   Float
+  fuelCost  Float
+  tollCost  Float
+  otherCost Float
+
+  truckId String
+  truck   Truck @relation(fields: [truckId], references: [id])
+
+  driverId String
+  driver   Driver @relation(fields: [driverId], references: [id])
+
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
+
+  userId String
+  user   User @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
