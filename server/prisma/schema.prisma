@@ -83,6 +83,7 @@ model Trip {
   fuelCost  Float
   tollCost  Float
   otherCost Float
+  profit Float
 
   truckId String
   truck   Truck @relation(fields: [truckId], references: [id])
