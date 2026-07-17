@@ -71,3 +71,29 @@ export const getProfitAnalytics = async () => {
     monthlyProfit,
   };
 };
+export const getTopTrucks = async () => {
+  const trucks = await prisma.truck.findMany({
+    include: {
+      trips: true,
+    },
+  });
+
+  return trucks.map((truck) => {
+    const totalRevenue = truck.trips.reduce(
+      (sum, trip) => sum + trip.revenue,
+      0
+    );
+
+    const totalProfit = truck.trips.reduce(
+      (sum, trip) => sum + trip.profit,
+      0
+    );
+
+    return {
+      truckNumber: truck.truckNumber,
+      totalRevenue,
+      totalProfit,
+      totalTrips: truck.trips.length,
+    };
+  });
+};
