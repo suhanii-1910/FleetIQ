@@ -8,6 +8,7 @@ import driverRoutes from "./routes/driver.routes";
 import customerRoutes from "./routes/customer.routes";
 import tripRoutes from "./routes/trip.routes";
 import dashboardRoutes from "./routes/dashboard.routes";
+import analyticsRoutes from "./routes/analytics.routes";
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use("/api/drivers", driverRoutes);
 app.use("/api/customers", customerRoutes);
 app.use("/api/trips", tripRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 app.get("/", (_req, res) => {
   res.send("FleetIQ API Running 🚀");
