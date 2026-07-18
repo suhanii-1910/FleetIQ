@@ -97,3 +97,30 @@ export const getTopTrucks = async () => {
     };
   });
 };
+export const getTopCustomers = async () => {
+  const customers = await prisma.customer.findMany({
+    include: {
+      trips: true,
+    },
+  });
+
+  return customers.map((customer) => {
+    const totalRevenue = customer.trips.reduce(
+      (sum, trip) => sum + trip.revenue,
+      0
+    );
+
+    const totalProfit = customer.trips.reduce(
+      (sum, trip) => sum + trip.profit,
+      0
+    );
+
+    return {
+      customerName: customer.name,
+      company: customer.company,
+      totalRevenue,
+      totalProfit,
+      totalTrips: customer.trips.length,
+    };
+  });
+};
