@@ -4,6 +4,7 @@ import {
   getProfitAnalytics,
   getTopTrucks,
   getTopCustomers,
+  getTopDrivers,
 } from "../services/analytics.service";
 
 export const getRevenue = async (req: Request, res: Response) => {
@@ -58,6 +59,21 @@ export const topCustomers = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       customers,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+export const topDrivers = async (req: Request, res: Response) => {
+  try {
+    const drivers = await getTopDrivers();
+
+    res.status(200).json({
+      success: true,
+      drivers,
     });
   } catch (error: any) {
     res.status(500).json({

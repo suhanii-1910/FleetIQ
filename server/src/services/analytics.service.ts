@@ -124,3 +124,29 @@ export const getTopCustomers = async () => {
     };
   });
 };
+export const getTopDrivers = async () => {
+  const drivers = await prisma.driver.findMany({
+    include: {
+      trips: true,
+    },
+  });
+
+  return drivers.map((driver) => {
+    const totalRevenue = driver.trips.reduce(
+      (sum, trip) => sum + trip.revenue,
+      0
+    );
+
+    const totalProfit = driver.trips.reduce(
+      (sum, trip) => sum + trip.profit,
+      0
+    );
+
+    return {
+      driverName: driver.name,
+      totalRevenue,
+      totalProfit,
+      totalTrips: driver.trips.length,
+    };
+  });
+};
