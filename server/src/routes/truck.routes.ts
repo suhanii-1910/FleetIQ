@@ -1,4 +1,6 @@
 import { Router } from "express";
+import { protect } from "../middleware/auth.middleware";
+
 import {
   addTruck,
   getTrucks,
@@ -9,10 +11,10 @@ import {
 
 const router = Router();
 
-router.post("/", addTruck);
-router.get("/", getTrucks);
-router.get("/:id", getTruck);
-router.put("/:id", editTruck);
-router.delete("/:id", removeTruck);
+router.post("/", protect, addTruck);
+router.get("/", protect, getTrucks);
+router.get("/:id", protect, getTruck);
+router.put("/:id", protect, editTruck);
+router.delete("/:id", protect, removeTruck);
 
 export default router;

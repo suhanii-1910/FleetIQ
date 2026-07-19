@@ -1,4 +1,6 @@
 import express from "express";
+import { protect } from "../middleware/auth.middleware";
+
 import {
   getRevenue,
   getProfit,
@@ -9,10 +11,10 @@ import {
 
 const router = express.Router();
 
-router.get("/revenue", getRevenue);
-router.get("/profit", getProfit);
-router.get("/top-trucks", topTrucks);
-router.get("/top-customers", topCustomers);
-router.get("/top-drivers", topDrivers);
+router.get("/revenue", protect, getRevenue);
+router.get("/profit", protect, getProfit);
+router.get("/top-trucks", protect, topTrucks);
+router.get("/top-customers", protect, topCustomers);
+router.get("/top-drivers", protect, topDrivers);
 
 export default router;

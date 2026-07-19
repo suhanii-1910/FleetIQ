@@ -1,4 +1,6 @@
 import { Router } from "express";
+import { protect } from "../middleware/auth.middleware";
+
 import {
   addTrip,
   getTrips,
@@ -8,9 +10,9 @@ import {
 
 const router = Router();
 
-router.post("/", addTrip);
-router.get("/", getTrips);
-router.put("/:id", editTrip);
-router.delete("/:id", removeTrip);
+router.post("/", protect, addTrip);
+router.get("/", protect, getTrips);
+router.put("/:id", protect, editTrip);
+router.delete("/:id", protect, removeTrip);
 
 export default router;

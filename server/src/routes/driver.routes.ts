@@ -1,4 +1,6 @@
 import { Router } from "express";
+import { protect } from "../middleware/auth.middleware";
+
 import {
   addDriver,
   getDrivers,
@@ -8,9 +10,9 @@ import {
 
 const router = Router();
 
-router.post("/", addDriver);
-router.get("/", getDrivers);
-router.put("/:id", editDriver);
-router.delete("/:id", removeDriver);
+router.post("/", protect, addDriver);
+router.get("/", protect, getDrivers);
+router.put("/:id", protect, editDriver);
+router.delete("/:id", protect, removeDriver);
 
 export default router;

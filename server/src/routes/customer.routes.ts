@@ -1,4 +1,6 @@
 import { Router } from "express";
+import { protect } from "../middleware/auth.middleware";
+
 import {
   addCustomer,
   getCustomers,
@@ -8,9 +10,9 @@ import {
 
 const router = Router();
 
-router.post("/", addCustomer);
-router.get("/", getCustomers);
-router.put("/:id", editCustomer);
-router.delete("/:id", removeCustomer);
+router.post("/", protect, addCustomer);
+router.get("/", protect, getCustomers);
+router.put("/:id", protect, editCustomer);
+router.delete("/:id", protect, removeCustomer);
 
 export default router;
